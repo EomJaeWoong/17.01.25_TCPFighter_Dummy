@@ -12,5 +12,7 @@ map<DWORD, st_CHARACTER *> g_Client;
 
 void main()
 {
+	netSetup();
 
+	ClientConnect();
 }

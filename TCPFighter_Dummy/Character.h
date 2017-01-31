@@ -12,6 +12,9 @@ struct st_CHARACTER
 	BYTE byDirection;
 	BYTE byMoveDirection;
 
+	BYTE byAITick;
+	BYTE byActionTick;
+
 	short shX;
 	short shY;
 
