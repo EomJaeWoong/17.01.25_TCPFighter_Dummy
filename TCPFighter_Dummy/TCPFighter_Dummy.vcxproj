@@ -79,14 +79,19 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Character.h" />
+    <ClInclude Include="Content.h" />
     <ClInclude Include="Network.h" />
+    <ClInclude Include="NPacket.h" />
+    <ClInclude Include="PacketDefine.h" />
     <ClInclude Include="Session.h" />
     <ClInclude Include="StreamQueue.h" />
     <ClInclude Include="TypeDefine.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Content.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Network.cpp" />
+    <ClCompile Include="NPacket.cpp" />
     <ClCompile Include="StreamQueue.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

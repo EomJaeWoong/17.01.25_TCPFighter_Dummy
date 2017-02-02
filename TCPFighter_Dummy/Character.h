@@ -3,7 +3,7 @@
 
 struct st_CHARACTER
 {
-	st_SESSTION *pSession;
+	st_SESSION *pSession;
 	DWORD dwSessionID;
 
 	DWORD dwAction;
@@ -20,5 +20,7 @@ struct st_CHARACTER
 
 	char chHP;
 };
+
+typedef map<DWORD, st_CHARACTER *> Character;
 
 #endif
