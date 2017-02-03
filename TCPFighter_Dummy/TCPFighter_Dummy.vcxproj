@@ -80,8 +80,10 @@
   <ItemGroup>
     <ClInclude Include="Character.h" />
     <ClInclude Include="Content.h" />
+    <ClInclude Include="Log.h" />
     <ClInclude Include="Network.h" />
     <ClInclude Include="NPacket.h" />
+    <ClInclude Include="ObjectType.h" />
     <ClInclude Include="PacketDefine.h" />
     <ClInclude Include="Session.h" />
     <ClInclude Include="StreamQueue.h" />
@@ -89,6 +91,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Content.cpp" />
+    <ClCompile Include="Log.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Network.cpp" />
     <ClCompile Include="NPacket.cpp" />

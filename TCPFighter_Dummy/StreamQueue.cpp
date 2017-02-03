@@ -154,18 +154,17 @@ int	CAyaStreamSQ::Get(char *chpDest, int iSize)
 /////////////////////////////////////////////////////////////////////////
 int	CAyaStreamSQ::Peek(char *chpDest, int iSize)
 {
-	int iBrokenSize;
+	if (GetUseSize() < iSize)
+		iSize = GetUseSize();
+	if (GetNotBrokenGetSize() < iSize && m_iWritePos < m_iReadPos)
+		iSize = GetNotBrokenGetSize();
 
-	if (GetFreeSize() < iSize)
-		iSize = GetFreeSize();
-
-	iBrokenSize = GetNotBrokenGetSize();
-	for (int iCnt = 0; iCnt < iBrokenSize; iCnt++)
+	for (int iCnt = 0; iCnt < iSize; iCnt++)
 	{
 		chpDest[iCnt] = m_chpBuffer[m_iReadPos + iCnt];
 	}
 
-	return iBrokenSize;
+	return iSize;
 }
 
 

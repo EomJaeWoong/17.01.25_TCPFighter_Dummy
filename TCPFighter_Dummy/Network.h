@@ -4,29 +4,30 @@
 bool netSetup();
 bool ClientConnect();
 
-st_SESSION *CreateSession(SOCKET socket);				//技记 积己
+void netIOProcess();
+void SelectProc(SOCKET *SocketTable, FD_SET *ReadSet, FD_SET *WriteSet, int iSize);
+
+st_SESSION *CreateSession(SOCKET socket);				// 技记 积己
+st_SESSION *FindSession(SOCKET socket);					// 技记 茫扁
+
+BOOL netProc_Send(SOCKET socket);
+void netProc_Recv(SOCKET socket);
+
+BOOL PacketProc(st_SESSION *pSession);
 
 /*----------------------------------------------------------------------------*/
-// Receive Packet
+// Recv Packet
 /*----------------------------------------------------------------------------*/
 BOOL recvProc_CreateMyCharacter(CNPacket *pPacket);
-BOOL recvProc_CreateOtherCharacter(CNPacket *pPacket);
-BOOL recvProc_DeleteCharacter(CNPacket *pPacket);
-BOOL recvProc_MoveStart(CNPacket *pPacket);
-BOOL recvProc_MoveStop(CNPacket *pPacket);
-BOOL recvProc_Attack1(CNPacket *pPacket);
-BOOL recvProc_Attack2(CNPacket *pPacket);
-BOOL recvProc_Attack3(CNPacket *pPacket);
-BOOL recvProc_Damage(CNPacket *pPacket);
-BOOL recvProc_Sync(CNPacket *pPacket);
+
 /*----------------------------------------------------------------------------*/
 // Send Packet
 /*----------------------------------------------------------------------------*/
-BOOL sendProc_MoveStart(int iDir, int iX, int iY);
-BOOL sendProc_MoveStop(int iDir, int iX, int iY);
-BOOL sendProc_Attack1(int iDir, int iX, int iY);
-BOOL sendProc_Attack2(int iDir, int iX, int iY);
-BOOL sendProc_Attack3(int iDir, int iX, int iY);
+BOOL sendProc_MoveStart(st_CHARACTER *pCharacter, int iDir, int iX, int iY);
+BOOL sendProc_MoveStop(st_CHARACTER *pCharacter, int iDir, int iX, int iY);
+BOOL sendProc_Attack1(st_CHARACTER *pCharacter, int iDir, int iX, int iY);
+BOOL sendProc_Attack2(st_CHARACTER *pCharacter, int iDir, int iX, int iY);
+BOOL sendProc_Attack3(st_CHARACTER *pCharacter, int iDir, int iX, int iY);
 
 /*----------------------------------------------------------------------------*/
 // Make Packet
@@ -42,6 +43,7 @@ int makePacket_Attack2(st_NETWORK_PACKET_HEADER *pHeader, CNPacket *pPacket,
 int makePacket_Attack3(st_NETWORK_PACKET_HEADER *pHeader, CNPacket *pPacket,
 	int iDir, int iX, int iY);
 
-extern map<DWORD, st_CHARACTER *> g_Client;
+
+extern map<DWORD, st_CHARACTER *> g_Character;
 
 #endif
