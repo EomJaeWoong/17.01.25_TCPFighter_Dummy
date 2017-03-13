@@ -26,7 +26,10 @@ st_CHARACTER *CreateCharacter(st_SESSION *pSession, char Direction,
 	pCharacter->shX = shX;
 	pCharacter->shY = shY;
 
-	pCharacter->byDirection = 0;
+	pCharacter->dwActionTick = 0;
+	pCharacter->dwAction = dfACTION_STAND;
+
+	pCharacter->byDirection = Direction;
 	pCharacter->byMoveDirection = dfACTION_STAND;
 
 	pCharacter->byAITick = timeGetTime();
@@ -62,7 +65,6 @@ void Action()
 	st_NETWORK_PACKET_HEADER Header;
 	CNPacket nPacket;
 
-	int shX = -1, shY = -1;
 	st_CHARACTER *pCharacter = NULL;
 
 	Character::iterator cIter;
@@ -77,20 +79,13 @@ void Action()
 		//------------------------------------------------------------------------------
 		case dfACTION_MOVE_LL :
 		case dfACTION_MOVE_LU :
-		case dfACTION_MOVE_UU	:
-		case dfACTION_MOVE_RU	:
-		case dfACTION_MOVE_RR	:
-		case dfACTION_MOVE_RD	:
-		case dfACTION_MOVE_DD	:
-		case dfACTION_MOVE_LD	:
-			DeadReckoningPos(pCharacter->byActionTick, pCharacter->byAITick,
-				pCharacter->shX, pCharacter->shY, &shX, &shY);
-
-			pCharacter->shX = shX;
-			pCharacter->shY = shY;
-
-			sendProc_MoveStart(pCharacter, pCharacter->byActionTick, 
-				pCharacter->shX, pCharacter->shY);
+		case dfACTION_MOVE_UU :
+		case dfACTION_MOVE_RU :
+		case dfACTION_MOVE_RR :
+		case dfACTION_MOVE_RD :
+		case dfACTION_MOVE_DD :
+		case dfACTION_MOVE_LD :
+			SetActionMove(pCharacter);
 			break;
 
 		//------------------------------------------------------------------------------
@@ -120,6 +115,52 @@ void Action()
 			break;
 		}
 	}
+}
+
+/*-------------------------------------------------------------------------------------*/
+// Move Action input에 대한 Move Action 셋팅
+/*-------------------------------------------------------------------------------------*/
+void SetActionMove(st_CHARACTER *pCharacter)
+{
+	int shX = -1, shY = -1;
+
+	if (pCharacter->byMoveDirection != pCharacter->byActionTick)
+	{
+		switch (pCharacter->byActionTick)
+		{
+		case dfPACKET_MOVE_DIR_RR:
+		case dfPACKET_MOVE_DIR_RU:
+		case dfPACKET_MOVE_DIR_RD:
+			pCharacter->byDirection = dfACTION_MOVE_RR;
+			break;
+
+		case dfPACKET_MOVE_DIR_LL:
+		case dfPACKET_MOVE_DIR_LU:
+		case dfPACKET_MOVE_DIR_LD:
+			pCharacter->byDirection = dfACTION_MOVE_LL;
+			break;
+		}
+
+		DeadReckoningPos(pCharacter->byActionTick, pCharacter->byAITick,
+			pCharacter->shX, pCharacter->shY, &shX, &shY);
+
+		pCharacter->shX = shX;
+		pCharacter->shY = shY;
+
+		pCharacter->byMoveDirection = pCharacter->byActionTick;
+		pCharacter->dwAction = pCharacter->byActionTick;
+
+		sendProc_MoveStart(pCharacter, pCharacter->byActionTick,
+			pCharacter->shX, pCharacter->shY);
+	}
+}
+
+/*---------------------------------------------------------------------------------------------*/
+// Move Action input에 대한 Stand Action 셋팅
+/*---------------------------------------------------------------------------------------------*/
+void SetActionStand(st_CHARACTER *pCharacter)
+{
+	
 }
 
 /*-------------------------------------------------------------------------------------*/

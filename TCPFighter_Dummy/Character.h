@@ -6,6 +6,9 @@ struct st_CHARACTER
 	st_SESSION *pSession;
 	DWORD dwSessionID;
 
+	DWORD dwAction;
+	DWORD dwActionTick;
+
 	BYTE byDirection;
 	BYTE byMoveDirection;
 

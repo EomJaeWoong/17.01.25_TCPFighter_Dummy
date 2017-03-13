@@ -7,6 +7,7 @@ st_CHARACTER *CreateCharacter(st_SESSION *pSession, char Direction,
 void Update();
 void Action();
 
+void SetActionMove(DWORD actionMove);
 int DeadReckoningPos(DWORD dwAction, DWORD dwActionTick,
 	int iOldPosX, int iOldPosY, int *pPosX, int *pPosY);
 
